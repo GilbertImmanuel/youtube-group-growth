@@ -1,0 +1,16 @@
+# Thresholds live here, not inline in code, so changing a value changes it
+# everywhere it is used.
+
+# Long-form split on contentDetails.duration. Videos at or below the threshold
+# are shorts. Sensitivity check re-runs the split at 180 seconds.
+shorts_threshold_seconds: 60
+shorts_threshold_sensitivity_seconds: 180
+
+# Videos younger than this at snapshot time are dropped.
+min_video_age_days: 180
+
+# Event-study window in months around the join event, inclusive.
+event_window_months: [-24, 24]
+
+# Controls matched per treated creator, 8 to 10.
+match_ratio: 10

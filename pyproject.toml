@@ -1,0 +1,23 @@
+[project]
+name = "youtube-group-growth"
+version = "0.0.0"
+description = "Does group membership change individual YouTube creator growth"
+requires-python = ">=3.11"
+dependencies = [
+    "pandas>=2.1.1",
+    "duckdb",
+    "pyarrow",
+    "google-api-python-client",
+    "pandera[pandas]",
+    "statsmodels",
+    "differences",
+    "networkx",
+    "matplotlib",
+    "plotly",
+    "streamlit",
+    "pytest",
+    "pyyaml",
+]
+
+# Dependency manifest for reproducibility. Developed against a conda env on
+# Python 3.13.

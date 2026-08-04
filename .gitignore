@@ -1,0 +1,29 @@
+# data
+data/raw/
+data/interim/
+data/processed/
+data/validation/*
+!data/validation/labels.csv
+!data/snapshots/
+
+# generated run artifacts
+loops/*/runs/
+loops/*/candidates/
+*.bak
+*.orig
+
+# large source files, deleted after filtering
+*.tsv.gz
+*.jsonl.gz
+*.jsonl.zst
+*.feather
+
+# secrets and env
+.env
+.venv/
+
+# python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.pytest_cache/
