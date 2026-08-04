@@ -1,0 +1,44 @@
+group,channel_id,channel_name,role,join_date,leave_date,source_url,founder,is_primary,channel_created,date_basis,date_precision,notes
+Sidemen,UCDogdKl7t7NHzQ95aEwkdMw,Sidemen,group,2013-10-19,,https://en.wikipedia.org/wiki/Sidemen,,True,2015-06-14,formation,exact,primary group channel
+Sidemen,UCh5mLn90vUaB1PbRRx_AiaA,MoreSidemen,group,2013-10-19,,https://en.wikipedia.org/wiki/Sidemen,,False,2018-02-01,formation,exact,secondary group channel
+Sidemen,UCjRkTl_HP4zOh3UFaThgRZw,SidemenReacts,group,2013-10-19,,https://en.wikipedia.org/wiki/Sidemen,,False,2020-08-06,formation,exact,secondary group channel
+Sidemen,UCbAZH3nTxzyNmehmTUhuUsA,SidemenShorts,group,2013-10-19,,https://en.wikipedia.org/wiki/Sidemen,,False,2021-03-03,formation,exact,secondary group channel
+Sidemen,UCGmnsW623G1r-Chmo5RB4Yw,KSI,member,2013-10-19,2026-05-31,https://en.wikipedia.org/wiki/Sidemen,True,True,2011-01-26,formation,exact,founding member; left 2026-05-31
+Sidemen,UCWZmCMB7mmKWcXJSIPRhzZw,Miniminter,member,2013-10-19,,https://en.wikipedia.org/wiki/Sidemen,True,True,2008-02-17,formation,exact,founding member
+Sidemen,UChntGq8THlUokhc1tT-M2wA,Zerkaa,member,2013-10-19,,https://en.wikipedia.org/wiki/Sidemen,True,True,2009-12-06,formation,exact,founding member
+Sidemen,UCfNWN9s_s8kRTCadk04WWJA,TBJZL,member,2013-10-19,,https://en.wikipedia.org/wiki/Sidemen,True,True,2011-11-16,formation,exact,founding member
+Sidemen,UCHhfSXoDG6gSgpOvLH4wrRw,Behzinga,member,2013-10-19,,https://en.wikipedia.org/wiki/Sidemen,True,True,2012-02-24,formation,exact,founding member
+Sidemen,UCvwgF_0NOZe2vN4Q3g1bY-A,Vikkstar123,member,2013-10-19,,https://en.wikipedia.org/wiki/Sidemen,True,True,2010-04-12,formation,exact,founding member
+Sidemen,UCjtLOfx1yt1NlnFIDyAX3Ug,W2S,member,2014-01-01,,https://en.wikipedia.org/wiki/Sidemen,False,True,2012-07-26,approximate,month,joined January 2014
+Beta Squad,UCxOzbkk0bdVl6-tH1Fcajfg,Beta Squad,group,2019-02-14,,https://youtube.fandom.com/wiki/Beta_Squad,,True,2019-02-14,channel_creation,approximate,formation ~ channel creation; source user-edited
+Beta Squad,UCdcUmdOxMrhRjKMw-BX19AA,Niko Omilana,member,2019-02-14,,https://youtube.fandom.com/wiki/Beta_Squad,True,True,2011-06-21,formation,approximate,founding member
+Beta Squad,UCv-GNHtqM97EaU_i7gN_Ikw,Chunkz,member,2019-02-14,,https://youtube.fandom.com/wiki/Beta_Squad,True,True,2015-07-23,formation,approximate,founding member
+Beta Squad,UCDMHyBFbyJIKFiEwHty-u5Q,Aj Shabeel,member,2019-02-14,,https://youtube.fandom.com/wiki/Beta_Squad,True,True,2015-10-01,formation,approximate,founding member
+Beta Squad,UCQNbfWASCZedLPFChbJ6AEg,Sharky,member,2019-02-14,,https://youtube.fandom.com/wiki/Beta_Squad,True,True,2015-08-17,formation,approximate,founding member
+Beta Squad,UC_8JxHQrJHC4rUsBtoPY4wQ,KingKennyTv,member,2019-02-14,,https://en.wikipedia.org/wiki/King_Kenny_(internet_personality),True,True,2013-07-04,formation,approximate,co-founder
+AMP,UCJbYdyufHR-cxOuY96KIoqA,AMP,group,2019-10-01,,https://en.wikipedia.org/wiki/AMP_(streamer_collective),,True,2020-01-24,formation,month,operates a qualifying long-form group channel; co-founded October 2019; group channel created 2020-01
+AMP,UCoEmptob-eEGKk18c2VplJg,Kai Cenat,member,2020-07-01,,https://en.wikipedia.org/wiki/AMP_(streamer_collective),False,True,2012-12-26,approximate,month,joined mid-2020
+AMP,UCJ-rK_vd0Pw3J8kOjfW_m8g,Fanum,member,2019-10-01,,https://en.wikipedia.org/wiki/AMP_(streamer_collective),True,True,2017-05-23,formation,month,founder
+AMP,UCspFcBk0XKaSJjZccJkPqnQ,Duke Dennis Gaming,member,2019-10-01,,https://en.wikipedia.org/wiki/AMP_(streamer_collective),True,True,2013-02-16,formation,month,founder; primary long-form channel (switched from vlog channel that postdated join)
+AMP,UCh2aTKSbIyxpnOsbHsmV-ig,Agent 00,member,2019-10-01,,https://en.wikipedia.org/wiki/AMP_(streamer_collective),True,True,2022-08-24,formation,month,"founder; channel recreated 2022, no pre-treatment period, exclude from Q4/Q5"
+AMP,UCNLgp2Ewml3Gp5fT4uh3raw,ImDavisss Live,member,2019-10-01,,https://en.wikipedia.org/wiki/AMP_(streamer_collective),True,True,2015-11-18,formation,month,"founder; Live channel, main gaming channel may differ"
+AMP,UCecIOBvj1k5dwh_WVtsE7kg,Chrisnxtdoor,member,2019-10-01,,https://en.wikipedia.org/wiki/AMP_(streamer_collective),True,True,2013-05-02,formation,month,joined as editor then full member
+2HYPE,UCY4AlDv6wL2qhrX29iwdqAg,2HYPE,group,2019-05-12,,https://youtube.fandom.com/wiki/2HYPE,,True,2019-05-12,channel_creation,approximate,formed May 2019; source user-edited
+2HYPE,UCQIUhhcmXsu6cN6n3y9-Pww,Jesser,member,2019-05-12,,https://youtube.fandom.com/wiki/2HYPE,True,True,2012-07-09,formation,approximate,founder
+2HYPE,UCUJ0Qif41Vfwds2Q_k6HO2g,Kristopher London,member,2019-05-12,,https://youtube.fandom.com/wiki/2HYPE,True,True,2012-08-10,formation,approximate,founder
+2HYPE,UCvyTdLw8SkVmUcHYXSDEGwA,CashNasty,member,2019-05-12,,https://youtube.fandom.com/wiki/2HYPE,True,True,2013-06-22,formation,approximate,founder
+2HYPE,UCTs5PJGf9AwnA7mNV3ejNTQ,ZackTTG,member,2019-05-12,,https://youtube.fandom.com/wiki/2HYPE,True,True,2015-07-11,formation,approximate,founder
+2HYPE,UCaUwlJEE3Vxsw0eIG15xBiw,Jiedel,member,2019-05-12,,https://youtube.fandom.com/wiki/2HYPE,True,True,2014-06-19,formation,approximate,founder
+2HYPE,UCOYSYNsxTfGTGbMu2c-kpfg,Mopi,member,2019-05-12,2020-12-13,https://www.distractify.com/p/why-did-mopi-leave-2hype,True,True,2016-04-09,formation,approximate,"former member, left 2020-12-13 (leave exact)"
+Team 10,UCcgVECVN4OKV6DH1jLkqmcA,Jake Paul,member,2016-08-05,2019-09-01,https://www.newsweek.com/jake-pauls-raided-team-10-house-has-been-losing-members-years-heres-why-1523327,True,True,2013-09-19,formation,exact,"case-study only (Q6), excluded from Q1-Q5; Team 10 founder"
+Team 10,UCrCkLipGria4UloMpvNil5g,Erika Costell,member,2017-01-01,2018-01-01,https://www.newsweek.com/jake-pauls-raided-team-10-house-has-been-losing-members-years-heres-why-1523327,False,True,2014-03-06,approximate,approximate,"case-study only (Q6); join/leave approximate, not precisely sourced"
+Dude Perfect,UCRijo3ddMTht_IHyNSNXpNQ,Dude Perfect,group,2009-03-16,,https://en.wikipedia.org/wiki/Dude_Perfect,,True,2009-03-17,formation,exact,"contrast case only, excluded from all estimation Q1-Q6; 5 members have no significant solo channels"
+OfflineTV,UCDK9qD5DAQML-pzrtA7A4oA,OfflineTV,group,2017-07-03,,https://en.wikipedia.org/wiki/OfflineTV,,True,2017-07-03,channel_creation,approximate,operates a qualifying long-form group channel; formation 2017
+OfflineTV,UCan_L4XHfSbCKaTCcntyLTQ,Scarra,member,2017-07-03,,https://en.wikipedia.org/wiki/OfflineTV,True,True,2014-10-24,formation,month,co-founder
+OfflineTV,UChXKjLEzAB1K7EZQey7Fm1Q,Pokimane,member,2017-07-03,2023-01-01,https://en.wikipedia.org/wiki/OfflineTV,True,True,2014-03-23,formation,month,co-founder; left 2023 (approx)
+OfflineTV,UCvWU1K29wCZ8j1NsXsRrKnA,LilyPichu,member,2017-07-03,,https://en.wikipedia.org/wiki/OfflineTV,True,True,2006-03-05,formation,month,co-founder
+OfflineTV,UCUT8RoNBTJvwW1iErP6-b-A,Disguised Toast,member,2017-10-01,,https://en.wikipedia.org/wiki/OfflineTV,True,True,2015-04-07,approximate,month,joined Oct 2017 (founding era)
+OfflineTV,UCtHaxi4GTYDpJgMSGy7AeSw,Michael Reeves,member,2019-12-01,,https://en.wikipedia.org/wiki/OfflineTV,False,True,2016-04-15,approximate,month,late joiner Dec 2019
+OfflineTV,UCgDvko7FcHndaS-QoLJw_PA,Yvonnie,member,2018-09-19,,https://en.wikipedia.org/wiki/OfflineTV,False,True,2018-09-19,approximate,year,"joined 2018; date aligned to channel creation, verify"
+OfflineTV,UC_wSuaxwUYsJOBZDWwHIQZg,QuarterJade,member,2021-11-01,,https://en.wikipedia.org/wiki/OfflineTV,False,True,2018-02-14,approximate,month,late joiner Nov 2021
+OfflineTV,UCOmXyEquWIIo1uAj_2LN4UA,Fedmyster,member,2017-07-03,2020-06-01,https://en.wikipedia.org/wiki/OfflineTV,True,True,2014-12-05,formation,month,co-founder; removed June 2020
