@@ -3,11 +3,14 @@
 ## The trigger
 
 On 2026-05-31 KSI (Olajide Olatunji) published a video announcing his exit from
-the Sidemen after 13 years. Sources: Forbes 2026-05-31, Deadline 2026-06-01, CNN
-2026-06-01. The remaining six members stated publicly that the exit was unexpected.
+the Sidemen. Press reported the tenure as 13 years (Forbes 2026-05-31, Deadline
+2026-06-01, CNN 2026-06-01). cohort_groups.csv dates the formation to 2013-10-19,
+which is 12 years before the exit. The remaining six members stated publicly that
+the exit was unexpected.
 
-In late July 2026 KSI published an Instagram story arguing that YouTube groups
-suppress individual creator growth. The argument, in his terms:
+In late July 2026 KSI published a YouTube community post, reshared to an Instagram
+story, arguing that YouTube groups suppress individual creator growth. The
+argument, in his terms:
 
 1. Pair collaborations are reciprocal. Creator A appears on Creator B's channel,
    Creator B appears on Creator A's channel. Both channels gain.
@@ -19,7 +22,8 @@ suppress individual creator growth. The argument, in his terms:
 4. Conclusion in his words: YouTube groups kill growth in this space and turn it
    into a monopoly.
 
-Screenshot archived at `docs/source/ksi_story_2026-07.png`. Secondary reference:
+The archived screenshot `docs/source/ksi_story_2026-07.png` captures the Instagram
+reshare of the community post. Secondary reference:
 https://x.com/evenprimeodd/status/2082389214264725719/photo/1
 
 ## Why this is worth measuring
@@ -40,10 +44,10 @@ claim is correct about KSI specifically and incorrect as a general law.
 
 ## Personal motivation and positionality
 
-I have watched these creators for over 11 years, starting before the main Sidemen
-channel existed and therefore following the members as individual channels first.
-My viewing has declined in recent years due to other responsibilities. The exit
-announcement prompted the question.
+I began watching these creators before the Sidemen channel was created on
+2015-06-14 (source channels.list), following the members as individual channels
+first. My viewing has declined in recent years due to other responsibilities. The
+exit announcement prompted the question.
 
 This positionality is disclosed as a prior. It explains why the Sidemen ecosystem
 is the primary case rather than an arbitrary starting point, and it discloses that
@@ -55,8 +59,8 @@ That my viewing predates the group channel is analytically relevant, not just
 biographical. It matches the structure of the claim under test: members had
 individual channels first, and the group channel was added on top.
 
-The Sidemen channel's creation date, from the API, should be checked against the
-11-year claim before publication.
+The Sidemen channel's creation date from channels.list is 2015-06-14, the basis
+for the pre-channel viewing statement above.
 
 ## What this project is not
 

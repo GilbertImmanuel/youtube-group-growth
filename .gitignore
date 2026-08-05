@@ -27,3 +27,6 @@ __pycache__/
 *.pyc
 .ipynb_checkpoints/
 .pytest_cache/
+
+# working checklist, not a deliverable. Scope and decisions are tracked in docs/.
+PROJECT_PLAN.md
