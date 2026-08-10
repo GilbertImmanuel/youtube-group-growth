@@ -2,10 +2,13 @@
 # Default assumes the intended environment is active on PATH.
 PY ?= python
 
-.PHONY: data features models report eval-collabs eval-matching test
+.PHONY: data clean features models report eval-collabs eval-matching test
 
 data:
 	$(PY) -m src.collect.youtube_api
+
+clean:
+	$(PY) -m src.clean.build
 
 features:
 	$(PY) -m src.features.panel
