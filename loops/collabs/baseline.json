@@ -1,0 +1,12 @@
+{
+  "metric": "f1",
+  "command": "python -m src.features.collabs --eval",
+  "produced_by": "src/features/collabs.py",
+  "date": "2026-08-11",
+  "validation_set": "data/validation/labels.csv (hand_checked=1)",
+  "n_videos": 76,
+  "collaborator_instances": 213,
+  "precision": 0.9167,
+  "recall": 0.0516,
+  "f1": 0.0978
+}
