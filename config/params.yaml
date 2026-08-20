@@ -14,3 +14,12 @@ event_window_months: [-24, 24]
 
 # Controls matched per treated creator, 8 to 10.
 match_ratio: 10
+
+# Window before treatment over which control-matching balance covariates (mean
+# log views per long-form video, long-form upload count) are measured.
+matching_pretreatment_months: 12
+
+# Nearest candidate controls kept per treated unit, by standardised pre-treatment
+# covariate distance. 1 is nearest-neighbour matching, which minimised the balance
+# metric in Loop B (loops/matching/log.md); raise it to trade balance for control count.
+matching_neighbors: 1

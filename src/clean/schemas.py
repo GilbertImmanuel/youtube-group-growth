@@ -45,6 +45,23 @@ CHANNEL_SCHEMA = DataFrameSchema(
 )
 
 
+# The video-level causal panel (src/features/panel.py). log_views is finite, weight is
+# positive, cohort is the treatment month and is null for never-treated controls.
+PANEL_SCHEMA = DataFrameSchema(
+    {
+        "video_id": Column("string", nullable=False, unique=True, coerce=True),
+        "channel_id": _text(),
+        "group": _text(),
+        "treated": Column("bool", nullable=False, coerce=True),
+        "cohort": Column("datetime64[us, UTC]", nullable=True, coerce=True),
+        "published_month": Column("datetime64[ns]", nullable=False, coerce=True),
+        "log_views": Column("float64", Check.ge(0), nullable=False, coerce=True),
+        "weight": Column("float64", Check.gt(0), nullable=False, coerce=True),
+    },
+    strict=True,
+)
+
+
 def validate_videos(df):
     return VIDEO_SCHEMA.validate(df, lazy=True)
 

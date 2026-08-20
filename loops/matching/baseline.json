@@ -1,0 +1,11 @@
+{
+  "metric": "mean_abs_smd",
+  "command": "python -m src.features.panel --eval-matching",
+  "produced_by": "src/features/panel.py",
+  "date": "2026-08-20",
+  "definition": "mean |SMD| over pre-treatment mean_log_views and n_uploads, 12-month window",
+  "matching_function": "all 10 frozen candidates, equal weight",
+  "n_treated_scored": 27,
+  "per_covariate": {"mean_log_views": 0.808, "n_uploads": 0.357},
+  "mean_abs_smd": 0.5826
+}
