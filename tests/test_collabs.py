@@ -3,11 +3,16 @@
 import pandas as pd
 
 from src.features.collabs import (
+    ALIASES,
     extract_refs,
     load_labels,
+    name_hits,
     resolve_to_cohort,
     video_collaborators,
 )
+
+ZERKAA = "UChntGq8THlUokhc1tT-M2wA"  # first name "josh", nickname "zerk"
+W2S = "UCjtLOfx1yt1NlnFIDyAX3Ug"     # "harry", "wroetoshaw"
 
 # A real cohort handle map, trimmed to the channels used below.
 HMAP = {"ksi": "UCksi", "miniminter": "UCmm", "chunkz": "UCchunkz"}
@@ -53,6 +58,21 @@ def test_video_collaborators_excludes_self():
     desc = "follow @ksi and my own @miniminter here youtube.com/@Chunkz"
     got = video_collaborators(title, desc, HMAP, COHORT, own_id="UCmm")
     assert got == {"UCksi", "UCchunkz"}  # own channel UCmm dropped
+
+
+def test_name_hits_matches_first_name_word_bounded():
+    # "JOSH (Zerkaa)" is the roster-footer form; the first name resolves to Zerkaa.
+    assert name_hits("? JOSH (Zerkaa)") == {ZERKAA}
+    # Word-bounded: a longer token that merely contains the alias must not match.
+    assert name_hits("joshua reviews the game") == set()
+
+
+def test_video_collaborators_picks_up_member_name():
+    # No links here; the collaborator is recoverable only from the member name.
+    cohort = set(ALIASES) | {"UCother"}
+    got = video_collaborators("SIDEMEN CHALLENGE", "? HARRY (W2S)\n? JOSH (Zerkaa)",
+                              {}, cohort, own_id=ZERKAA)
+    assert got == {W2S}  # own channel Zerkaa dropped even though named
 
 
 def test_load_labels_roundtrip(tmp_path):

@@ -8,11 +8,20 @@ Ground truth is independent of this parser: labels come from viewing the video
 (transcript plus frames), never from the description. So a high F1 means the
 description and title text recovers the collaborations that viewing confirms.
 
-Collaborators surface three ways in real cohort descriptions: /channel/UC... links,
-/@handle and bare @handle mentions, and legacy /c/ and /user/ links. Handles resolve
-to channel IDs through a cohort-only map (config/cohort_handles.json, one API unit to
-build via channels.list customUrl). Scoring restricts predictions to cohort channels, so non-cohort noise
-(sponsor @tags, instagram and twitter handles) drops out without special-casing.
+Collaborators surface four ways in real cohort descriptions: /channel/UC... links,
+/@handle and bare @handle mentions, legacy /c/ and /user/ links, and member names.
+Handles resolve to channel IDs through a cohort-only map (config/cohort_handles.json,
+one API unit to build via channels.list customUrl). Scoring restricts predictions to
+cohort channels, so non-cohort noise (sponsor @tags, instagram and twitter handles)
+drops out without special-casing.
+
+The name path (ALIASES) is what Loop A added. Sidemen group videos rarely hyperlink
+members; each video ends with a fixed "SIDEMEN" roster footer naming members by first
+name ("JOSH (Zerkaa)") with bare vanity URLs the URL regex above does not match. Matching
+member real names and nicknames recovers those. The footer is a static roster, not a cast
+list, so it names members who are absent from a given video; that is the false-positive
+floor and the reason F1 stalls at 0.6634 (see loops/collabs/log.md). Aliases are cohort
+reference facts (public names and nicknames), independent of the viewing-based labels.
 
 Usage:
     python -m src.features.collabs --eval
@@ -38,6 +47,26 @@ _CHANNEL_ID = re.compile(r"/channel/(UC[\w-]{22})")
 _URL_HANDLE = re.compile(r"youtube\.com/(?:@|c/|user/)([A-Za-z0-9_.-]+)", re.IGNORECASE)
 # Bare @mention not part of an email or a longer path token.
 _BARE_HANDLE = re.compile(r"(?<![\w/@.])@([A-Za-z0-9_.-]+)")
+
+# Cohort member real names and nicknames, mapped to channel ID. Complements the handle
+# map: handles are matched above, these are the names a description uses in prose or in
+# the roster footer. Kept to the Sidemen seven plus guests who recur in the validation
+# ecosystem; short common-word first names (Simon, Josh, Ethan, Harry) are included
+# because in this cohort the precision cost is small and the recall gain is large.
+ALIASES = {
+    "UCGmnsW623G1r-Chmo5RB4Yw": ("jj", "olajide", "olatunji"),          # KSI
+    "UCWZmCMB7mmKWcXJSIPRhzZw": ("simon", "minter"),                    # Miniminter
+    "UCvwgF_0NOZe2vN4Q3g1bY-A": ("vik", "vikk", "vikram"),              # Vikkstar123
+    "UChntGq8THlUokhc1tT-M2wA": ("josh", "zerk"),                       # Zerkaa
+    "UCHhfSXoDG6gSgpOvLH4wrRw": ("ethan",),                             # Behzinga
+    "UCfNWN9s_s8kRTCadk04WWJA": ("tobi", "tobjizzle"),                  # TBJZL
+    "UCjtLOfx1yt1NlnFIDyAX3Ug": ("harry", "wroetoshaw", "wroe"),        # W2S
+    "UCdcUmdOxMrhRjKMw-BX19AA": ("omilana",),                           # Niko Omilana
+}
+_ALIAS_RE = {
+    cid: re.compile(r"\b(?:" + "|".join(re.escape(a) for a in al) + r")\b", re.IGNORECASE)
+    for cid, al in ALIASES.items()
+}
 
 
 def extract_refs(text):
@@ -79,10 +108,16 @@ def resolve_to_cohort(refs, handle_to_id, cohort_ids):
     return out
 
 
+def name_hits(text):
+    """Cohort channel IDs whose member name or nickname appears in text."""
+    return {cid for cid, rx in _ALIAS_RE.items() if rx.search(text)}
+
+
 def video_collaborators(title, description, handle_to_id, cohort_ids, own_id=None):
     """Cohort collaborators referenced in one video, excluding the uploader itself."""
     text = f"{title or ''}\n{description or ''}"
     found = resolve_to_cohort(extract_refs(text), handle_to_id, cohort_ids)
+    found |= name_hits(text) & cohort_ids
     found.discard(own_id)
     return found
 
