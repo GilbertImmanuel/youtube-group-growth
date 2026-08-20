@@ -28,16 +28,20 @@ Usage:
 """
 
 import argparse
+import itertools
 import json
 import os
 import re
 
+import networkx as nx
 import pandas as pd
 
 PROCESSED = os.path.join("data", "processed", "videos.parquet")
 LABELS = os.path.join("data", "validation", "labels.csv")
 HANDLE_MAP = os.path.join("config", "cohort_handles.json")
 COHORT = os.path.join("config", "cohort_groups.csv")
+EDGES_OUT = os.path.join("data", "processed", "collab_edges.parquet")
+EXTERNAL_OUT = os.path.join("data", "processed", "external_collabs.parquet")
 
 # A channel ID is UC followed by 22 url-safe base64 characters.
 _CHANNEL_ID = re.compile(r"/channel/(UC[\w-]{22})")
@@ -122,6 +126,67 @@ def video_collaborators(title, description, handle_to_id, cohort_ids, own_id=Non
     return found
 
 
+def load_group_of(path=COHORT):
+    """channel_id -> group name, for every cohort channel."""
+    c = pd.read_csv(path)
+    return dict(zip(c["channel_id"], c["group"]))
+
+
+def build_collab_graph(df, handle_to_id, cohort_ids):
+    """Bipartite creator-video graph over cohort channels (Q3).
+
+    A creator links to a video when it is the cohort uploader or a cohort collaborator
+    named in the title or description. Video nodes are prefixed 'v:' and carry the
+    publish timestamp; creator nodes are the 'UC...' channel IDs. Only videos with at
+    least one named cohort collaborator are added, since a video with no collaborator
+    contributes no edge.
+    """
+    g = nx.Graph()
+    for row in df.itertuples():
+        own = row.channel_id
+        if own not in cohort_ids:
+            continue
+        collabs = video_collaborators(row.title, row.description, handle_to_id, cohort_ids, own)
+        if not collabs:
+            continue
+        vnode = "v:" + row.video_id
+        g.add_node(vnode, kind="video", published_at=row.published_at)
+        g.add_edge(own, vnode)
+        for c in collabs:
+            g.add_edge(c, vnode)
+    return g
+
+
+def collab_edges(graph, group_of):
+    """One row per (video, unordered cohort pair) with a cross-group flag.
+
+    A video's creator neighbours in the bipartite graph are its participants; each pair
+    of them co-appeared. cross_group is True when the two belong to different groups,
+    which is the external-collaboration condition for Q3.
+    """
+    rows = []
+    for node, data in graph.nodes(data=True):
+        if data.get("kind") != "video":
+            continue
+        people = sorted(graph.neighbors(node))
+        for a, b in itertools.combinations(people, 2):
+            rows.append({"video_id": node[2:], "published_at": data["published_at"],
+                         "a": a, "b": b, "cross_group": group_of.get(a) != group_of.get(b)})
+    return pd.DataFrame(rows, columns=["video_id", "published_at", "a", "b", "cross_group"])
+
+
+def external_collab_counts(edges):
+    """Per creator per quarter, the count of distinct cross-group collaboration partners."""
+    ext = edges[edges["cross_group"]]
+    both = pd.concat([
+        ext.rename(columns={"a": "creator", "b": "partner"})[["creator", "partner", "published_at"]],
+        ext.rename(columns={"b": "creator", "a": "partner"})[["creator", "partner", "published_at"]],
+    ], ignore_index=True)
+    both["quarter"] = both["published_at"].dt.tz_localize(None).dt.to_period("Q").dt.to_timestamp()
+    return (both.groupby(["creator", "quarter"])["partner"].nunique()
+                .reset_index().rename(columns={"partner": "n_external_partners"}))
+
+
 def load_labels(path=LABELS):
     """video_id -> set of collaborator channel IDs. IDs are ';'-separated in one cell."""
     df = pd.read_csv(path, dtype=str).fillna("")
@@ -160,10 +225,34 @@ def evaluate(labels_path=LABELS):
             "tp": tp, "fp": fp, "fn": fn}
 
 
+def run_graph():
+    """Build the cohort collaboration graph over the full corpus and write Q3 features."""
+    handle_to_id = load_handle_map()
+    group_of = load_group_of()
+    cohort_ids = set(group_of)
+    cols = ["video_id", "channel_id", "published_at", "title", "description"]
+    df = pd.read_parquet(PROCESSED, columns=cols)
+
+    graph = build_collab_graph(df, handle_to_id, cohort_ids)
+    edges = collab_edges(graph, group_of)
+    counts = external_collab_counts(edges)
+
+    edges.to_parquet(EDGES_OUT, index=False)
+    counts.to_parquet(EXTERNAL_OUT, index=False)
+    n_ext = int(edges["cross_group"].sum())
+    print(f"wrote {EDGES_OUT}: {len(edges)} cohort pairs, {n_ext} cross-group")
+    print(f"wrote {EXTERNAL_OUT}: {len(counts)} creator-quarter rows, "
+          f"{counts['creator'].nunique()} creators with an external collaboration")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--eval", action="store_true", help="score F1 against the validation set")
+    ap.add_argument("--graph", action="store_true", help="build the collaboration graph and Q3 features")
     args = ap.parse_args()
+    if args.graph:
+        run_graph()
+        return
     if not args.eval:
         ap.print_help()
         return

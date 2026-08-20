@@ -4,6 +4,9 @@ import pandas as pd
 
 from src.features.collabs import (
     ALIASES,
+    build_collab_graph,
+    collab_edges,
+    external_collab_counts,
     extract_refs,
     load_labels,
     name_hits,
@@ -13,6 +16,15 @@ from src.features.collabs import (
 
 ZERKAA = "UChntGq8THlUokhc1tT-M2wA"  # first name "josh", nickname "zerk"
 W2S = "UCjtLOfx1yt1NlnFIDyAX3Ug"     # "harry", "wroetoshaw"
+CHUNKZ = "UCv-GNHtqM97EaU_i7gN_Ikw"  # Beta Squad, handle @chunkz
+
+
+def _one_video_df(own, description):
+    return pd.DataFrame([{
+        "video_id": "v1", "channel_id": own,
+        "published_at": pd.Timestamp("2021-03-01", tz="UTC"),
+        "title": "challenge", "description": description,
+    }])
 
 # A real cohort handle map, trimmed to the channels used below.
 HMAP = {"ksi": "UCksi", "miniminter": "UCmm", "chunkz": "UCchunkz"}
@@ -73,6 +85,27 @@ def test_video_collaborators_picks_up_member_name():
     got = video_collaborators("SIDEMEN CHALLENGE", "? HARRY (W2S)\n? JOSH (Zerkaa)",
                               {}, cohort, own_id=ZERKAA)
     assert got == {W2S}  # own channel Zerkaa dropped even though named
+
+
+def test_cross_group_pair_is_external():
+    # W2S (Sidemen) uploads a video featuring Chunkz (Beta Squad): one external edge.
+    df = _one_video_df(W2S, "ft @Chunkz")
+    graph = build_collab_graph(df, {"chunkz": CHUNKZ}, {W2S, CHUNKZ})
+    edges = collab_edges(graph, {W2S: "Sidemen", CHUNKZ: "Beta Squad"})
+    assert edges["cross_group"].tolist() == [True]
+    counts = external_collab_counts(edges)
+    # Both endpoints gain one external partner.
+    assert set(counts["creator"]) == {W2S, CHUNKZ}
+    assert counts["n_external_partners"].tolist() == [1, 1]
+
+
+def test_same_group_pair_not_external():
+    # W2S featuring Zerkaa, both Sidemen: an edge, but not a cross-group one.
+    df = _one_video_df(W2S, "ft @Zerkaa")
+    graph = build_collab_graph(df, {"zerkaa": ZERKAA}, {W2S, ZERKAA})
+    edges = collab_edges(graph, {W2S: "Sidemen", ZERKAA: "Sidemen"})
+    assert edges["cross_group"].tolist() == [False]
+    assert external_collab_counts(edges).empty
 
 
 def test_load_labels_roundtrip(tmp_path):
