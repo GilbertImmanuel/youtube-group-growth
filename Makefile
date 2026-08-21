@@ -17,7 +17,8 @@ models:
 	$(PY) -m src.models.did
 
 report:
-	$(PY) -m src.viz.report
+	$(PY) -m src.models.descriptive
+	$(PY) -m src.viz.descriptive
 
 eval-collabs:
 	$(PY) -m src.features.collabs --eval
