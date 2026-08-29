@@ -23,3 +23,23 @@ matching_pretreatment_months: 12
 # covariate distance. 1 is nearest-neighbour matching, which minimised the balance
 # metric in Loop B (loops/matching/log.md); raise it to trade balance for control count.
 matching_neighbors: 1
+
+# Phase 6 causal inference (Q4, Q5). The staggered DiD is estimated once against the
+# frozen panel; these constants fix the resampling so a re-run reproduces the intervals.
+
+# Wild cluster bootstrap draws for the DiD confidence intervals. Clustering is at the
+# ecosystem level (5 clusters), so Webb six-point weights are used, not Rademacher:
+# 2^5 Rademacher sign vectors are too few to trace a distribution at this cluster count.
+wild_bootstrap_iterations: 999
+
+# Placebo re-estimations: fake join dates on the treated pre-period, and a controls-only
+# fake-treatment run. The two distributions should centre near zero. 200 bounds the runtime;
+# a placebo summary (mean, dispersion, quantiles) is stable well below the bootstrap count.
+placebo_iterations: 200
+
+# Fixed RNG seed for every resampling step in Phase 6.
+rng_seed: 20260827
+
+# Q5 splits treated members by pre-join size into two arms at the median of the size
+# proxy (mean log-views over the pre-treatment window). median or terciles.
+q5_split: median

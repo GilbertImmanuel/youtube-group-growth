@@ -1,0 +1,2 @@
+test,periods,n_pre_periods,sup_t,p_value,n_clusters
+pretrend_sup_t,"[-24, -2]",23,7.672286392472272,0.001,5
