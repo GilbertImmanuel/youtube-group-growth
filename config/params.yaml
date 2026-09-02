@@ -43,3 +43,23 @@ rng_seed: 20260827
 # Q5 splits treated members by pre-join size into two arms at the median of the size
 # proxy (mean log-views over the pre-treatment window). median or terciles.
 q5_split: median
+
+# Phase 7 case studies (Q6). The synthetic control is fit once per named case against the
+# frozen donor pool; these constants fix the pre-window, donor count, and weight ridge so a
+# re-run reproduces the fit. No constant is tuned against the post-period gap (SCOPE 4.4).
+
+# Months of the pre-event window over which the donor weights are fit.
+synth_pre_window_months: 24
+
+# Months of the post-event window drawn for the gap and placebo plots. The KSI post window
+# is shorter than this because its post-exit data spans about 10 weeks to the snapshot.
+synth_post_window_months: 24
+
+# Donors kept per case: the nearest by pre-window mean log(views) among controls observed in
+# every pre-grid and post-grid month. Full coverage yields 62 (KSI) and 87 (Team 10)
+# eligible donors, so 40 is a fixed cap below both, giving a placebo p granularity of 1/41.
+synth_donor_count: 40
+
+# Ridge on the synthetic-control weights. Stabilises the simplex solve; does not select a
+# specification.
+synth_ridge: 0.000001
