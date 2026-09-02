@@ -269,3 +269,125 @@ python -m src.models.placebo
 
 Figures require the activated `projects` conda environment; the bare interpreter loads pandas but
 crashes on the matplotlib render step for want of the environment's native libraries.
+
+# Case studies (Q6)
+
+Recorded 2026-09-02. Synthetic control results for the two named Q6 cases, the KSI exit from
+the Sidemen (2026-05-31) and the Team 10 collapse (treated unit Jake Paul, 2019-09-01), from
+Phase 7 Stage 1 (commit df9f215). Every number below is read from the committed tables in
+`outputs/tables/`; the figures are in `outputs/figures/`. Produced by `python -m src.models.synth`.
+
+Results use "associated with" and no causal verb (STYLE rule A). Per rule E, the two cases
+bear on KSI's sub-claim 4 (groups suppress individual growth, stated as a general law) and are
+neither proven nor refuted. The KSI case is described, not interpreted: its post window is too
+short and too contaminated by view accrual to read as an effect.
+
+## Estimator
+
+Produced by `python -m src.models.synth`. Each case fits an Abadie synthetic control on the
+treated channel's monthly mean log(views) per long-form video. Donor weights are non-negative,
+sum to one, and reproduce the pre-event monthly path over the `synth_pre_window_months` window
+of 24 months from `config/params.yaml`. Donors are the frozen control channels
+(`config/cohort_controls.csv`) minus every cohort member and the treated unit, restricted to
+those observed in every pre-grid and post-grid month, and capped at the `synth_donor_count` of
+40 nearest the treated unit by pre-window mean log(views). Team 10 has no matched controls of
+its own in the frozen file, so its donors come from the broad control pool.
+
+Inference is an in-space placebo permutation. Each donor is reassigned the treatment date, its
+own synthetic is fit from the remaining donors, and its post-to-pre RMSPE ratio is computed.
+The treated unit's ratio is ranked among all 41 units, reported as a rank and a p equal to rank
+divided by unit count. A single treated unit has no valid conventional standard error, so the
+placebo rank is the inference (STYLE rules C and D).
+
+## Identifying assumptions
+
+A synthetic-control reading requires the donor combination to reproduce the treated channel's
+outcome path before the event, so the post-event gap measures the event and not a pre-existing
+divergence. Pre-period fit is reported per case as the pre-event RMSPE, and a poor pre-fit caps
+what the post gap can mean.
+
+The design carries the SCOPE 4.1 accrual argument. A single API snapshot returns cumulative
+views, so older videos have accrued longer. The monthly mean is taken within a calendar month
+across the treated channel and its synthetic together, so the accrual common to a given month
+is shared by both sides of the gap. For the KSI post window that argument is strained: the
+post-exit months are the most recent in the sample, the age filter is relaxed to observe them
+at all, and the videos have accrued 9.7 weeks or less, so the level is depressed by accrual in a
+way the pre-period fit cannot calibrate.
+
+## KSI exit
+
+Produced by `src.models.synth`, tables `outputs/tables/synth_fit.csv`, `synth_weights.csv`,
+`synth_gap.csv`, `synth_placebo.csv`, figures `outputs/figures/synth_ksi_path.svg` and
+`synth_ksi_placebo.svg`. Treated unit `UCGmnsW623G1r-Chmo5RB4Yw`, event 2026-05-31.
+
+Under the frozen 180-day age filter (SCOPE 4.2) every post-exit long-form video is unobservable
+at the 2026-08-07 snapshot, so the post window relaxes the age filter for the treated channel
+and the donors alike (owner decision 2026-09-02, recorded in `docs/DECISIONS.md`). The
+observable post window is 9.7 weeks and 3 monthly observations (`synth_fit.csv`).
+
+Two donors of 40 carry the synthetic, SMii7Y at weight 0.708 and Jayingee at 0.292
+(`synth_weights.csv`). Pre-event RMSPE is 0.932 log points over 21 pre-months (`synth_fit.csv`),
+a poor fit: KSI sits near the top of the donor level range and the convex donor combination
+cannot reach its path. The post-window mean gap is 0.318 log points above the synthetic, with a
+post-to-pre RMSPE ratio of 0.346 that ranks 41st of 41 units (p 1.000, `synth_placebo.csv`),
+the least anomalous unit in the pool.
+
+No conclusion is drawn from the KSI post window. The estimate is a 0.318 log-point mean gap over
+9.7 weeks and 3 observations, with a pre-fit RMSPE of 0.932 and a placebo rank at the bottom of
+the pool; the precision limit is that the pre-period is not reconstructed and the post level
+carries the accrual caveat (STYLE rule D). It is described, not read as an effect of the exit.
+
+## Team 10 collapse
+
+Produced by `src.models.synth`, tables `outputs/tables/synth_fit.csv`, `synth_weights.csv`,
+`synth_gap.csv`, `synth_placebo.csv`, figures `outputs/figures/synth_team10_path.svg` and
+`synth_team10_placebo.svg`. Treated unit Jake Paul (`UCcgVECVN4OKV6DH1jLkqmcA`), event
+2019-09-01.
+
+Jake Paul is the only Team 10 member with a usable pre-period; Erika Costell's channel has no
+history before her join (`config/cohort_groups.csv`, `docs/DECISIONS.md`). Eight donors of 40
+carry the synthetic, led by videogamedunkey (0.450), Lucas and Marcus (0.196), and SSSniperWolf
+(0.138) (`synth_weights.csv`). Pre-event RMSPE is 0.216 log points over 24 pre-months
+(`synth_fit.csv`), a close fit visible in `synth_team10_path.svg`.
+
+Over the 23-month post window the mean gap is -0.195 log points, Jake Paul running below his
+synthetic (`synth_fit.csv`, `synth_gap.csv`). The post-to-pre RMSPE ratio is 2.323, ranking 15th
+of 41 units (p 0.366, `synth_placebo.csv`). Jake Paul's post-collapse path is associated with a
+negative gap of -0.195 log points that cannot be distinguished from the donor placebo
+distribution at 40 donors, 24 pre-months, and 23 post-months. Read as a null, the estimate is a
+-0.195 log-point mean gap with a placebo rank of 15 of 41; it is imprecise at a single treated
+unit, not an established zero (STYLE rule D).
+
+## Per sub-claim reading
+
+Q6 bears on sub-claim 4 (groups suppress individual growth, stated as a general law) through the
+reverse of the mechanism: if group membership suppressed an individual's views, an exit or a
+collapse would release them. Per rule E, the claim is neither proven nor refuted.
+
+| Case | Evidence | Reading | Precision |
+|---|---|---|---|
+| KSI exit | 0.318 log-point post gap, rank 41 of 41 | Described only, post window 9.7 weeks, pre-fit RMSPE 0.932, accrual caveat | Not interpretable |
+| Team 10 collapse | -0.195 log-point post gap, rank 15 of 41, p 0.366 | Associated negative gap, not distinguishable from placebo | 40 donors, single treated unit |
+
+The release-of-suppression prediction that sub-claim 4 implies is not supported by either case
+at the precision achieved. Both cases fall short of it in different ways: the KSI post gap is
+positive but uninterpretable, and the Team 10 gap is negative and inside the placebo
+distribution. Neither case settles the claim.
+
+## What this does not establish
+
+The two cases are single-unit synthetic controls, not a test of a general law. Case-level
+synthetic control cannot separate the named event from anything else specific to that channel in
+the same months. The KSI post window is 9.7 weeks under a relaxed age filter and is described,
+not estimated. Full-cohort staggered-DiD associations (Q4, Q5) are in the Phase 6 section above
+and carry their own violated pre-trend.
+
+## Reproduce
+
+```
+python -m src.models.synth
+python -m src.models.synth --self-check
+```
+
+Figures require the activated `projects` conda environment; the bare interpreter loads pandas
+but crashes on the matplotlib render step for want of the environment's native libraries.
