@@ -1,0 +1,12 @@
+# Deliberate theme so the dashboard does not read as the default Streamlit template.
+# Dark base anchors the visual identity; primaryColor is the treated-series red cue.
+[theme]
+base = "dark"
+primaryColor = "#e5484d"
+backgroundColor = "#0d0d0d"
+secondaryBackgroundColor = "#1a1a19"
+textColor = "#f2f2ef"
+font = "sans serif"
+
+[server]
+headless = true
