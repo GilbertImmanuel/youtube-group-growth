@@ -88,7 +88,7 @@ _WIDEN_CSS = (
 def page_header(kicker, title, standfirst):
     st.markdown(_WIDEN_CSS, unsafe_allow_html=True)
     st.markdown(
-        f"<div style='border-left:3px solid {ACCENT};padding-left:14px;margin-bottom:8px'>"
+        f"<div style='margin-bottom:8px'>"
         f"<div style='color:{ACCENT};font-size:0.78rem;letter-spacing:0.08em;"
         f"text-transform:uppercase'>{kicker}</div>"
         f"<h1 style='margin:2px 0 0 0;font-size:1.9rem'>{title}</h1></div>",
@@ -117,9 +117,16 @@ def stat_row(items):
 def takeaway(text, source):
     """One-line plain-language reading under a chart, quoting FINDINGS, with its source."""
     st.markdown(
-        f"<div style='border-left:2px solid {COUNTERFACTUAL};padding:2px 0 2px 12px;"
-        f"color:#c3c2b7;font-size:0.92rem'>{text}"
-        f"<span style='color:#898781;font-size:0.8rem'> &nbsp;Source: {source}</span></div>",
+        f"<p style='color:#c3c2b7;font-size:0.92rem'>{text}"
+        f"<span style='color:#898781;font-size:0.8rem'> &nbsp;Source: {source}</span></p>",
+        unsafe_allow_html=True,
+    )
+
+
+def inference(text):
+    """A short reading of what the chart above shows, distinct from the sourced takeaway."""
+    st.markdown(
+        f"<p style='color:#9aa0aa;font-size:0.9rem;font-style:italic;margin-top:2px'>{text}</p>",
         unsafe_allow_html=True,
     )
 

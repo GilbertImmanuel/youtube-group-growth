@@ -24,6 +24,10 @@ st.markdown(
     "as the comparison. Inference is a group-level wild cluster bootstrap over the five "
     "ecosystems, using Webb six-point weights."
 )
+st.latex(r"\log(\text{views})_{it} = \alpha_i + \gamma_t + \sum_{k \neq -1} \beta_k\, D^{\,k}_{it} + \varepsilon_{it}")
+st.caption(r"$\alpha_i$ are channel fixed effects, $\gamma_t$ calendar-month fixed effects, and "
+           r"$D^{\,k}_{it}$ the cohort-by-relative-period indicators, with $k=-1$ held as the "
+           r"reference period; the post-treatment $\beta_k$ are averaged into the reported ATT.")
 
 st.subheader("Identifying assumptions")
 st.markdown(
@@ -65,6 +69,11 @@ st.markdown(
     "runs over 5 ecosystem clusters, and at this count the Webb wild cluster bootstrap is coarse, "
     "so the cluster count, not the video count, bounds the precision."
 )
+st.latex(r"\text{ratio} = \frac{\text{RMSPE}_{\text{post}}}{\text{RMSPE}_{\text{pre}}}, \qquad "
+         r"\text{RMSPE} = \sqrt{\tfrac{1}{T}\sum_{t}\left(y_t - \hat{y}_t\right)^2}")
+st.caption(r"$y_t$ is the treated channel's monthly mean $\log(\text{views})$ and $\hat{y}_t$ its "
+           r"synthetic; a low pre-period RMSPE means the donor mix reproduces the treated path "
+           r"before the event, and a large post-to-pre ratio marks a divergence after it.")
 
 st.subheader("Per sub-claim reading")
 st.markdown(

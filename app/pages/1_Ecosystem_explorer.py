@@ -52,6 +52,13 @@ lib.takeaway(
     "rises direction, so at this precision it cannot be distinguished from flat.",
     "outputs/tables/q1_concentration.csv, FINDINGS Q1",
 )
+lib.inference(
+    "Read from the chart, the mean line stays within its dispersion band across the whole window, "
+    "so any drift is small next to the spread between ecosystems and should not be read as "
+    "concentration building up.")
+st.latex(r"\mathrm{HHI} = \sum_{i} s_i^{2}")
+st.caption(r"Here $s_i$ is channel $i$'s share of monthly ecosystem views, and HHI is 1 when a "
+           r"single channel holds every view.")
 
 st.divider()
 
@@ -95,6 +102,10 @@ lib.takeaway(
     "largely cancels the common accrual factor.",
     "outputs/tables/attention_share.csv, FINDINGS attention share",
 )
+lib.inference(
+    "The lines climb from near zero only after each ecosystem forms, so the chart places the rise "
+    "in time without showing the group channel caused it; the within-year cross-channel share is "
+    "what carries the reading, not the absolute height.")
 
 with st.expander("Table view"):
     st.dataframe(latest[["group", "group_share", "member_share",

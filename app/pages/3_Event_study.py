@@ -53,6 +53,9 @@ lib.takeaway(
     "the controls also show.",
     "outputs/tables/q2_uploads.csv, FINDINGS Q2",
 )
+lib.inference(
+    "The two bands overlap across the whole window, so the treated and control paths move together "
+    "and the post-event dip belongs to both arms rather than to membership.")
 
 st.divider()
 
@@ -93,6 +96,10 @@ lib.takeaway(
     "not hold and the estimate is read as an association.",
     "outputs/tables/did_event_study.csv, did_overall_att.csv, FINDINGS Q4",
 )
+lib.inference(
+    "The path already rises through the pre-period to the left of the event line, which is the "
+    "visual form of the pre-trend violation, so the post-event level records a difference that was "
+    "building before treatment rather than a clean effect of it.")
 
 st.divider()
 
@@ -123,6 +130,10 @@ lib.takeaway(
     "associations.",
     "outputs/tables/did_q5_heterogeneity.csv, FINDINGS Q5",
 )
+lib.inference(
+    "Both intervals sit to the right of zero, with the small arm further right, so the pattern is a "
+    "larger gain for smaller members rather than the loss for larger members the general law "
+    "requires.")
 
 st.divider()
 
@@ -151,6 +162,9 @@ lib.takeaway(
     "an estimate that is imprecise at 200 draws and 5 clusters rather than an established zero.",
     "outputs/tables/placebo_summary.csv, FINDINGS placebo checks",
 )
+lib.inference(
+    "The real estimate falls inside the fake-date band, so the timing design attributes a large "
+    "value even to randomised dates, and distance from zero on its own is weak evidence here.")
 
 st.divider()
 
@@ -170,15 +184,20 @@ cases = [
      "The observable post window spans 9.7 weeks, over which the videos have accrued 9.7 weeks or "
      "less, so the post level is depressed by accrual in a way the pre-period fit cannot "
      "calibrate. With a pre-fit RMSPE of 0.932 the fit is poor, so the post gap is not "
-     "interpretable."),
+     "interpretable.",
+     "The treated line only lifts above its synthetic in the final points, where the window is "
+     "shortest and the accrual caveat bites, so the gap rests on the least reliable part of the "
+     "series."),
     ("Team 10", "Team 10 collapse, treated unit Jake Paul, 2019-09-01",
      "Jake Paul's post-collapse path is associated with a negative gap of -0.195 log points that "
      "cannot be distinguished from the donor placebo distribution across 40 donors, 24 pre-months, "
      "and 23 post-months. Read as a null, it is imprecise at a single treated unit rather than an "
      "established zero.",
-     None),
+     None,
+     "The treated line tracks its synthetic before the event and drifts modestly below afterwards, "
+     "a gap the placebo spread does not mark as unusual."),
 ]
-for tab, (case, title, reading, warn) in zip(tabs, cases):
+for tab, (case, title, reading, warn, infer) in zip(tabs, cases):
     with tab:
         g = gap[gap["case"] == case]
         f = fit.loc[case]
@@ -212,6 +231,7 @@ for tab, (case, title, reading, warn) in zip(tabs, cases):
         if warn:
             lib.caveat(warn)
         lib.takeaway(reading, f"outputs/tables/synth_gap.csv, synth_fit.csv, FINDINGS Q6 {case}")
+        lib.inference(infer)
         with st.expander("Donor weights"):
             w = weights[weights["case"] == case][["donor_name", "weight"]]
             w = w[w["weight"] > 0.0005].sort_values("weight", ascending=False)

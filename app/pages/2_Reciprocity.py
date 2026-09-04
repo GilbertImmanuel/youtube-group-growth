@@ -60,6 +60,10 @@ lib.takeaway(
     "been inactive in recent years.",
     "outputs/tables/reciprocity_ledger.csv, FINDINGS reciprocity ledger",
 )
+lib.inference(
+    "On the log scale, the distance between the two dots on each row spans three to four orders of "
+    "magnitude for four of the five groups, so the exchange is one-directional rather than merely "
+    "tilted, and 2HYPE is the single row where the dots swap sides.")
 
 with st.expander("Table view"):
     st.dataframe(led[["group", "member_to_group", "group_to_member", "ratio_m2g_over_g2m"]],
@@ -94,3 +98,7 @@ lib.takeaway(
     "creator-quarter, at N=7 Sidemen members per quarter.",
     "outputs/tables/q3_external_collabs.csv, FINDINGS Q3",
 )
+lib.inference(
+    "The line sits on the floor for the whole window, which is what a measure with no room to fall "
+    "looks like, so the flatness reflects the coverage limit rather than a decline in "
+    "collaboration.")
